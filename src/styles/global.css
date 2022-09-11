@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.logo{
+  background: -webkit-linear-gradient(0deg,#0031FF, #55b1f2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.card{
+  
+}
