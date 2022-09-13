@@ -9,5 +9,29 @@
 }
 
 .card{
-  
+  background: red;
+  width: 100px;
+  height: 145px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  font-weight: bolder;
+  background: linear-gradient(0deg,#0031FF, #55b1f2 )
+}
+
+.codefield input{
+  width: 70px;
+  font-size: 70px;
+  text-align: center;
+  border: 1px solid rgba(29,28,29, 0.2);
+}
+
+.codefield input:nth-child(1){
+  border-radius: 8px 0 0 8px;
+}
+
+.codefield input:last-child{
+  border-radius: 0 8px 8px 0;
 }
