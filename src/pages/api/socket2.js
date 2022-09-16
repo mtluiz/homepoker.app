@@ -8,8 +8,14 @@ const SocketHandler = (req, res) => {
     const io = new Server(res.socket.server)
 
     io.on('connect', (socket) => {
+
       socket.on("input-change", (msg) => {
         socket.broadcast.emit('update-input', msg)
+      })
+
+      socket.on("join-room", (roomId, username) => {
+          socket.join(roomId)
+          socket.to(roomId).emit("user-connected", username);
       })
     })
 
