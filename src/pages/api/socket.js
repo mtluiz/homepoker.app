@@ -1,24 +1,33 @@
-import {Server} from "socket.io";
+import { Server } from 'Socket.IO'
 
-const createdMessage = (msg) => {
-      console.log("created message");
-      socket.broadcast.emit("newIncomingMessage", msg);
-};
+const SocketHandler = (req, res) => {
+  if (res.socket.server.io) {
+    console.log('Socket is already running')
+  } else {
+    console.log('Socket is initializing')
 
-export default function SocketHandler(req, res){
-  if(res.socket.server.io) {
-    res.end()
-    return;
+    const io = new Server(res.socket.server)
+
+    io.on('connection', (socket) => {
+      console.log('connection', socket.id);
+
+      socket.on('join-room', info => {
+        console.log("junta sala", info);
+        socket.join(info.room)
+        socket.to(info.room).emit('user-connected', {username: info.name, room: info.room})
+
+        socket.on('disconnect', () => {
+          console.log('disconnected!', info);
+          socket.to(info.room).emit('user-disconnected', info)
+        })
+
+      })
+
+    })
+
+    res.socket.server.io = io
   }
-
-  const io = new Server(res.socket.server);
-  res.socket.server.io = io;
-
-  const onConnection = (socket) => {
-    socket.on("createdMessage", createdMessage);
-  }
-
-  io.on("connection", onConnection);
-
-  res.end();
+  res.end()
 }
+
+export default SocketHandler
