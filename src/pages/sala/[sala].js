@@ -1,35 +1,48 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
-import io from "socket.io-client" 
-
-let socket;
-
+import { getName } from "../../utils/username";
+import { toast } from "react-toastify";
+import io from "socket.io-client";
+import Room from "../../common/components/elements/room";
 
 export default function Sala() {
 
-  const {sala} = useRouter().query
-  console.log(sala);
+  const router = useRouter()
 
-  const [input, setInput] = useState('')
+  useEffect(() => {
+    console.log("quantas vez rodo");
+    if(!router.isReady) return;
+    const name = getName()
+    const room = router.query.sala
+    //socketInitializer(name, room)
+  }, [router.isReady])
 
-  useEffect(() => {socketInitializer()}, [])
+  const socketInitializer = async (name, room) => {
+    console.log(name, room);
+    
+    await fetch('/api/socket')
+    
+    let socket = io()
 
-  const socketInitializer = async () => {
-    await fetch('/api/socket2')
-    socket = io()
-    socket.emit("join-room", sala, "caralho")
-
-    socket.on('user-connected', (valor) => {
-      console.log("valor " + valor);
+    socket.emit("join-room", {
+      room,
+      name
     })
 
+    socket.on('user-connected', (valor) => {
+      console.log("usuario conectado", valor);
+      toast.info(`O usuario ${valor.username} entrou na sala ${valor.room}`, {autoClose: 3000})
+    })
 
+    socket.on('user-disconnected', (valor) => {
+      console.log("usuario desconectado", valor);
+      toast.error(`O usuario ${valor.username} saiu da sala ${valor.room}`, {autoClose: 3000})
+    })
   }
 
-  
   return (
-    <div>Sala {sala}
-      <button>sla porra</button>
+    <div className="min-w-fit h-screen p-8 bg-gradient-to-l from-blue-600 to-blue-900">
+      <Room roomId={123456} />
     </div>
   )
 }
