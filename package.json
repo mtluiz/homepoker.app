@@ -2,6 +2,10 @@
   "name": "homepoker",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "yarn": ">=1.22.19",
+    "npm": "please-use-yarn"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,8 +17,10 @@
     "next": "12.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-toastify": "^9.0.8",
     "socket.io": "^4.5.2",
-    "socket.io-client": "^4.5.2"
+    "socket.io-client": "^4.5.2",
+    "zustand": "^4.1.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
