@@ -13,6 +13,7 @@
 .card{
   background: red;
   width: 100px;
+  min-width: 100px;
   height: 145px;
   border-radius: 8px;
   display: flex;
@@ -20,7 +21,21 @@
   align-items: center;
   font-size: 50px;
   font-weight: bolder;
-  background: linear-gradient(0deg,#0031FF, #55b1f2 )
+  background: linear-gradient(0deg,#0031FFbb, #55b1f2cc );
+  box-shadow: 0 4px 3px #333;
+}
+
+.user-card{
+  @apply card;
+  background: #ffffff;
+  font-size: 18px;
+  font-weight: 400;
+  position: relative;
+}
+
+.user-card__name{
+  position: absolute;
+  bottom: 10px;
 }
 
 .codefield input{
@@ -36,4 +51,16 @@
 
 .codefield input:last-child{
   border-radius: 0 8px 8px 0;
+}
+
+.users{
+  background: rgba(255,255,255,0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(0,0,0,0.1);
+  padding: 10px;
+  @apply flex;
+  align-items: center;
+  justify-content: center;
 }
