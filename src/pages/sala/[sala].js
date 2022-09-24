@@ -42,7 +42,7 @@ export default function Sala() {
 
   return (
     <div className="min-w-fit h-screen p-8 bg-gradient-to-l from-blue-600 to-blue-900">
-      <Room roomId={123456} />
+      <Room roomId={router.query.sala} />
     </div>
   )
 }
