@@ -21,11 +21,11 @@ export default function CreateRoom() {
       </div>
 
       <div className="flex flex-wrap justify-center mt-8 gap-4">
-        <a className="block w-full px-6 py-3 text-lg font-medium text-blue-600 rounded shadow sm:w-auto hover:text-blue-400 transition-all active:text-blue-500 focus:outline-none focus:ring" onClick={selectDefault}>
+        <a className="block w-full px-6 py-3 text-lg font-medium cursor-pointer text-blue-600 rounded shadow sm:w-auto hover:text-blue-400 transition-all active:text-blue-500 focus:outline-none focus:ring" onClick={selectDefault}>
           Voltar
         </a>
         <Link href={"/sala/123"}>
-          <a className="block w-full px-6 py-3 text-lg font-medium text-white bg-blue-600 rounded shadow sm:w-auto active:bg-blue-500 transition-all hover:bg-blue-700 focus:outline-none focus:ring">
+          <a className="block w-full px-6 py-3 text-lg font-medium cursor-pointer text-white bg-blue-600 rounded shadow sm:w-auto active:bg-blue-500 transition-all hover:bg-blue-700 focus:outline-none focus:ring">
             Criar sala
           </a>
         </Link>
