@@ -5,9 +5,11 @@ import copyToClipboard from '../../../../utils/copyToClipboard';
 import UserCard from '../../ui/UserCard';
 import Card from '../../ui/Card';
 
-export default function Room({ roomId, users }) {
+export default function Room({ roomId, roomSocketInfo }) {
 
   const selectDefault = useSelectedStore((state) => state.selectDefault);
+
+  console.log(roomSocketInfo);
 
   return (
     <div className="">
@@ -50,20 +52,24 @@ export default function Room({ roomId, users }) {
       </div>
 
       <div className="users h-[260px]">
-        <UserCard name={"Lucas"}>
-          <h1>Voting...</h1>
-        </UserCard>
+        {
+          roomSocketInfo.users.map(user => (
+            <UserCard key={1} name={user}>
+              <h1>Voting...</h1>
+            </UserCard>
+          ))
+        }
       </div>
 
       <div className="votes h-1/4 min-h-1/4 gap-4 px-8 shadow-xl overflow-x-scroll flex items-center absolute w-full justify-center bg-white bottom-0 left-0">
-          <Card value={<img src={"/images/thumbs-up.svg"}/>} />
-          <Card value={<img src={"/images/thumbs-down.svg"}/>} />
-          <Card value={"?"} />
-          <Card value={"PP"} />
-          <Card value={"P"} />
-          <Card value={"M"} />
-          <Card value={"G"} />
-          <Card value={"GG"} />
+        <Card value={<img src={"/images/thumbs-up.svg"} />} />
+        <Card value={<img src={"/images/thumbs-down.svg"} />} />
+        <Card value={"?"} />
+        <Card value={"PP"} />
+        <Card value={"P"} />
+        <Card value={"M"} />
+        <Card value={"G"} />
+        <Card value={"GG"} />
       </div>
     </div>
   )
