@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import useSelectedStore from '../../../store/selected';
 import copyToClipboard from '../../../../utils/copyToClipboard';
 
@@ -9,7 +9,9 @@ export default function Room({ roomId, roomSocketInfo }) {
 
   const selectDefault = useSelectedStore((state) => state.selectDefault);
 
-  console.log(roomSocketInfo);
+  useEffect(() => {
+    console.log(roomSocketInfo.users);
+  }, [roomSocketInfo])
 
   return (
     <div className="">
@@ -54,7 +56,7 @@ export default function Room({ roomId, roomSocketInfo }) {
       <div className="users h-[260px]">
         {
           roomSocketInfo.users.map(user => (
-            <UserCard key={1} name={user}>
+            <UserCard key={user.id} name={user.name}>
               <h1>Voting...</h1>
             </UserCard>
           ))
