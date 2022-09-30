@@ -16,7 +16,10 @@ export default class SocketHandler{
 
   #generateUserObject({name, id}){
     return {
-      
+      id,
+      name,
+      hasVoted: false,
+      vote: ''
     }
   }
 
@@ -28,27 +31,35 @@ export default class SocketHandler{
         socket.join(info.room);
         console.log("Usuario juntou a sala:", info);
 
-        if(!ROOMS.get(info.room)){
-          ROOMS.set(info.room, this.#generateRoomObject({
+        if(!this.ROOMS.get(info.room)){
+          this.ROOMS.set(info.room, this.#generateRoomObject({
             type: info.type, 
             user: info.name, 
             roomId: info.room
           }))
         } 
 
-        const currentRoom = ROOMS.get(info.room)
-        currentRoom.users.push(info.name)
+        const currentRoom = this.ROOMS.get(info.room)
+        currentRoom.users.push(this.#generateUserObject({
+            id: socket.id,
+            name: info.name
+        }))
 
         this.io.in(info.room).emit('user-connected', {
           username: info.name, 
-          room: info.room
+          room: info.room,
+          roomData: currentRoom
         })
 
         socket.on('disconnect', () => {
-          this.io.in(info.room).emit('user-disconnected', info)
-          console.log('User disconnected!', info);
-          //const userIndex = currentRoom.indexOf(info.name);
-          //if(userIndex > -1) currentRoom.users.splice(userIndex, 1);
+          console.log('User disconnected!', socket.id);
+          console.log(currentRoom.users.filter(user => socket.id !== user.id))
+          currentRoom.users = currentRoom.users.filter(user => socket.id !== user.id)
+          this.io.in(info.room).emit('user-disconnected', {
+            username: info.name, 
+            room: info.room,
+            roomData: currentRoom
+          })
         })
       })
     })
