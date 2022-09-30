@@ -1,18 +1,7 @@
-import { Server } from 'Socket.IO'
+import { Server } from 'Socket.IO';
+import SocketHandler from '../../server/Socket';
 
-function geneterateRoomObject({type, user, roomId}){
-  return {
-    type: type || "fibonacci",
-    users: [],
-    votes: [],
-    isVotesHidden: true,
-    roomId
-  }
-}
-
-const ROOMS = new Map();
-
-const SocketHandler = (req, res) => {
+const SocketController = (req, res) => {
   if (res.socket.server.io) {
     console.log('Socket is already running')
   } else {
@@ -20,39 +9,13 @@ const SocketHandler = (req, res) => {
 
     const io = new Server(res.socket.server)
 
-    io.on('connection', (socket) => {
-      console.log('connection', socket.id);
+    const Socket = new SocketHandler(io)
 
-      socket.on('join-room', info => {
-        console.log("junta sala", info);
-        socket.join(info.room);
-
-        if(!ROOMS.get(info.room)){
-          ROOMS.set(info.room, geneterateRoomObject({type: info.type, user: info.name, roomId: info.room}))
-        } 
-
-        const currentRoom = ROOMS.get(info.room)
-
-        currentRoom.users.push(info.name)
-
-        console.log(currentRoom);
-
-        socket.to(info.room).emit('user-connected', {username: info.name, room: info.room, roomObject: currentRoom})
-
-        socket.on('disconnect', () => {
-          console.log('disconnected!', info);
-          const userIndex = currentRoom.indexOf(info.name);
-          if(userIndex > -1) currentRoom.users.splice(userIndex, 1);
-          socket.to(info.room).emit('user-disconnected', info)
-        })
-
-      })
-
-    })
+    Socket.start()
 
     res.socket.server.io = io
   }
   res.end()
 }
 
-export default SocketHandler
+export default SocketController
