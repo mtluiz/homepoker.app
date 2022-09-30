@@ -13,11 +13,7 @@ export default function Sala() {
   const [roomInfo, setRoomInfo] = useState(null)
 
   useEffect(() => {
-    console.log(roomInfo);
-  }, [roomInfo])
-
-  useEffect(() => {
-    if(!router.isReady) return;
+    if (!router.isReady) return;
     const name = getName()
     const room = router.query.sala
     socketInitializer(name, room)
@@ -25,9 +21,9 @@ export default function Sala() {
 
   const socketInitializer = async (name, room) => {
     console.log("CLIENT", name, room);
-    
+
     await fetch('/api/socket')
-    
+
     let socket = io()
 
     socket.emit("join-room", {
@@ -36,17 +32,16 @@ export default function Sala() {
     })
 
     socket.on('user-connected', (valor) => {
-     
-       console.log("SERVER", valor);
-      //toast.info(`O usuario ${valor.username} entrou na sala ${valor.room}`, {autoClose: 3000})
-      //setRoomInfo(valor.roomObject)
-      
+      console.log("SERVER", valor);
+      toast.info(`O usuario ${valor.username} entrou na sala ${valor.room}`, { autoClose: 3000 })
+      setRoomInfo(valor.roomData)
     })
 
-    //socket.on('user-disconnected', (valor) => {
-      //console.log("usuario desconectado", valor);
-      //toast.error(`O usuario ${valor.username} saiu da sala ${valor.room}`, {autoClose: 3000})
-    //})
+    socket.on('user-disconnected', (valor) => {
+      toast.error(`O usuario ${valor.username} saiu da sala ${valor.room}`, { autoClose: 3000 })
+      console.log("usuario desconectado", valor);
+      setRoomInfo(valor.roomData)
+    })
   }
 
   return (
