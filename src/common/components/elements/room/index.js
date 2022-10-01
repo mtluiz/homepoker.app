@@ -3,7 +3,6 @@ import useSelectedStore from '../../../store/selected';
 import copyToClipboard from '../../../../utils/copyToClipboard';
 
 import UserCard from '../../ui/UserCard';
-import Card from '../../ui/Card';
 
 export default function Room({ roomId, roomSocketInfo }) {
 
@@ -63,16 +62,7 @@ export default function Room({ roomId, roomSocketInfo }) {
         }
       </div>
 
-      <div className="votes h-1/4 min-h-1/4 gap-4 px-8 shadow-xl overflow-x-scroll flex items-center absolute w-full justify-center bg-white bottom-0 left-0">
-        <Card value={<img src={"/images/thumbs-up.svg"} />} />
-        <Card value={<img src={"/images/thumbs-down.svg"} />} />
-        <Card value={"?"} />
-        <Card value={"PP"} />
-        <Card value={"P"} />
-        <Card value={"M"} />
-        <Card value={"G"} />
-        <Card value={"GG"} />
-      </div>
+
     </div>
   )
 }
