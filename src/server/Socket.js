@@ -19,7 +19,7 @@ export default class SocketHandler{
       id,
       name,
       hasVoted: false,
-      vote: ''
+      vote: null
     }
   }
 
@@ -29,7 +29,7 @@ export default class SocketHandler{
 
       socket.on('join-room', info => {
         socket.join(info.room);
-        console.log("Usuario juntou a sala:", info);
+        console.log("Usuario se juntou a sala:", info);
 
         if(!this.ROOMS.get(info.room)){
           this.ROOMS.set(info.room, this.#generateRoomObject({
@@ -48,19 +48,47 @@ export default class SocketHandler{
         this.io.in(info.room).emit('user-connected', {
           username: info.name, 
           room: info.room,
-          roomData: currentRoom
+          roomData: currentRoom,
+          yourId: socket.id
+        })
+
+        socket.on("user-vote", data => {
+            console.log(data);
+            console.log(socket.id);
+            
+            const {vote} = data;
+
+            currentRoom.users = currentRoom.users.map(user => {
+              if(user.id === socket.id) {
+                return {
+                  ...user,
+                  hasVoted: vote !== null,
+                  vote
+                }
+              }
+              return user;
+            }) 
+
+            this.io.in(info.room).emit('sync-votes', {
+              username: info.name, 
+              room: info.room,
+              roomData: currentRoom
+            })
         })
 
         socket.on('disconnect', () => {
           console.log('User disconnected!', socket.id);
           console.log(currentRoom.users.filter(user => socket.id !== user.id))
           currentRoom.users = currentRoom.users.filter(user => socket.id !== user.id)
+
           this.io.in(info.room).emit('user-disconnected', {
             username: info.name, 
             room: info.room,
             roomData: currentRoom
           })
+
         })
+
       })
     })
   }

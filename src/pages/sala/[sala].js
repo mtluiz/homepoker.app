@@ -1,10 +1,12 @@
-import io from "socket.io-client";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
+import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import io from "socket.io-client";
 
-import Room from "../../common/components/elements/room";
 import { getName } from "../../utils/username";
+import Room from "../../common/components/elements/room";
+
+let socket;
 
 export default function Sala() {
 
@@ -19,12 +21,23 @@ export default function Sala() {
     socketInitializer(name, room)
   }, [router.isReady])
 
+  useEffect(() => {
+    console.log(roomInfo);
+  }, [roomInfo])
+
+  let clickOnVote = (value) => {
+    console.log("votou");
+    socket.emit("user-vote",{
+      vote: value
+    })
+  }
+
   const socketInitializer = async (name, room) => {
     console.log("CLIENT", name, room);
 
     await fetch('/api/socket')
 
-    let socket = io()
+    socket = io()
 
     socket.emit("join-room", {
       room,
@@ -37,6 +50,11 @@ export default function Sala() {
       setRoomInfo(valor.roomData)
     })
 
+    socket.on("sync-votes", valor => {
+      console.log(valor);
+      setRoomInfo(valor.roomData)
+    })
+
     socket.on('user-disconnected', (valor) => {
       toast.error(`O usuario ${valor.username} saiu da sala ${valor.room}`, { autoClose: 3000 })
       console.log("usuario desconectado", valor);
@@ -46,7 +64,7 @@ export default function Sala() {
 
   return (
     <div className="min-w-fit h-screen p-8 bg-gradient-to-l from-blue-600 to-blue-900">
-      {roomInfo ? <Room roomId={router.query.sala} roomSocketInfo={roomInfo} /> : "Loading"}
+      {roomInfo ? <Room roomId={router.query.sala} roomSocketInfo={roomInfo} clickOnVoteCard={clickOnVote} /> : "Loading"}
     </div>
   )
 }
