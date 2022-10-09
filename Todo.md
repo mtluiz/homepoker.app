@@ -1,8 +1,8 @@
-- [ ] Turn votes div into a isolated component that receives the type of the room, with a function that returns the pressed vote
+- [ ] Make UI interactions more vivid and clear (add sound on vote, let user know wich vote is chosen)
 
-- [ ] Create and sincronize all events that the user can do: vote, reset, show all, unvote, etc
+- [ ] Turn the user section into a component that counts votes and show them in a better way
 
-- [ ] Sync events with the room, making it dynamic
+- [ ] Fix the JoinRoom component make it's flow perfect 
 
 - [ ] Find a way to not let users login in the same room in another tab
 
