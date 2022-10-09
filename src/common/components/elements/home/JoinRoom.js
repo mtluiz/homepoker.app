@@ -1,24 +1,40 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react';
+
+import { getName } from '../../../../utils/username';
 import useSelectedStore from '../../../store/selected';
+import CreateName from '../name/CreateName';
 
 export default function JoinRoom() {
 
-  const fields = useRef(null);
+  const [code, setCode] = useState("");
 
+  useEffect(() => {
+    console.log(code);
+  }, [code])
+  
+
+  const fields = useRef(null);
   const selectDefault = useSelectedStore((state) => state.selectDefault);
 
   useEffect(() => {
     const inputs = fields.current.querySelectorAll("input");
+    const values = [];
     Array.from(inputs).forEach((input) => {
       input.addEventListener('keydown', (el) => {
         if (el.target.value.length === 1 && el.target.nextElementSibling) {
-          el.target.nextElementSibling.focus()
+          el.target.nextElementSibling.focus();
         }
         if ((el.key == "Backspace" || el.key == "Delete") && el.target.previousElementSibling) {
           el.target.value = ""
           el.target.previousElementSibling.focus()
         }
       }, { passive: true })
+
+      input.addEventListener('change', (el) => {
+        values.push(el.target.value)
+        setCode(values.join(""))
+        console.log(values);
+      })
     })
   }, [])
 
@@ -30,7 +46,10 @@ export default function JoinRoom() {
         </svg>
         <span>Voltar</span>
       </button>
-      <h1 className='text-center text-2xl my-8'>Digite o codigo da sala:</h1>
+
+      {!getName() && <CreateName />}
+
+      <h1 className='text-center text-2xl my-8'>Digite o código da sala:</h1>
       <div>
         <form>
           <fieldset ref={fields} className='codefield'>
