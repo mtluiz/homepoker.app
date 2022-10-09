@@ -1,6 +1,7 @@
 import { ToastContainer } from "react-toastify"
-import "../styles/global.css";
 import 'react-toastify/dist/ReactToastify.css';
+
+import "../styles/global.css";
 
 const MyApp = ({ Component, pageProps }) => (
   <>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+
 import CreateName from '../name/CreateName'
 import useSelectedStore from '../../../store/selected'
 

@@ -1,9 +1,8 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 
 import Card from '../../ui/Card'
-import { useState } from 'react'
 
 const fibonacciCards = [
   "?",

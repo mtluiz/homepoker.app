@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
+
 import useSelectedStore from '../../../store/selected';
 import copyToClipboard from '../../../../utils/copyToClipboard';
-
 import UserCard from '../../ui/UserCard';
 import VoteCards from './VoteCards';
 

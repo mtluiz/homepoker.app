@@ -1,5 +1,5 @@
 import { Server } from 'Socket.IO';
-import SocketHandler from '../../server/Socket';
+import SocketHandler from '../../services/SocketHandler';
 
 const SocketController = (req, res) => {
   if (res.socket.server.io) {
