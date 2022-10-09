@@ -25,13 +25,6 @@ export default function Sala() {
     console.log(roomInfo);
   }, [roomInfo])
 
-  let clickOnVote = (value) => {
-    console.log("votou");
-    socket.emit("user-vote",{
-      vote: value
-    })
-  }
-
   const socketInitializer = async (name, room) => {
     console.log("CLIENT", name, room);
 
@@ -62,9 +55,36 @@ export default function Sala() {
     })
   }
 
+  let clickOnVote = (value) => {
+    console.log("votou");
+    socket.emit("user-vote",{
+      vote: value
+    })
+  }
+
+  const toggleVoteShow = () => {
+      socket.emit("toggle-votes-visibility", !roomInfo.isVotesHidden)
+      console.log("votos visiveis");
+  }
+
+  const resetRoom = () => {
+    socket.emit("reset-room", "reset-room")
+    console.log("reset room");
+  }
+
   return (
     <div className="min-w-fit h-screen p-8 bg-gradient-to-l from-blue-600 to-blue-900">
-      {roomInfo ? <Room roomId={router.query.sala} roomSocketInfo={roomInfo} clickOnVoteCard={clickOnVote} /> : "Loading"}
+      {
+        roomInfo 
+        ? <Room 
+            roomId={router.query.sala} 
+            roomSocketInfo={roomInfo} 
+            clickOnVoteCard={clickOnVote} 
+            toggleVoteShow={toggleVoteShow}
+            resetRoom={resetRoom}
+          /> 
+        : "Loading"
+      }
     </div>
   )
 }
