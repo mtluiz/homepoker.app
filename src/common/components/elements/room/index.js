@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 
 import useSelectedStore from '../../../store/selected';
 import copyToClipboard from '../../../../utils/copyToClipboard';
@@ -57,7 +57,13 @@ export default function Room({ roomId, roomSocketInfo, clickOnVoteCard, toggleVo
         {
           roomSocketInfo.users.map(user => (
             <UserCard key={user.id} name={user.name}>
-              <h1>{user.hasVoted ? "Ja Votou!" : "Votando..."}</h1>
+              <h1>
+                {
+                  roomSocketInfo.isVotesHidden
+                    ? user.hasVoted ? "Ja Votou!" : "Votando..."
+                    : user.vote
+                }
+              </h1>
             </UserCard>
           ))
         }
