@@ -44,7 +44,6 @@ export default function Sala() {
     })
 
     socket.on("sync-votes", valor => {
-      console.log(valor);
       setRoomInfo(valor.roomData)
     })
 
