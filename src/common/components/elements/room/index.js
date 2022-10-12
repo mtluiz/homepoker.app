@@ -52,7 +52,7 @@ export default function Room({ roomId, roomSocketInfo, clickOnVoteCard, toggleVo
 
       <div className="users h-[280px] gap-2">
         {
-          roomSocketInfo.users.map(user => (
+          roomSocketInfo.isVotesHidden ? roomSocketInfo.users.map(user => (
             <UserCard
               key={user.id}
               name={user.name}
@@ -60,14 +60,10 @@ export default function Room({ roomId, roomSocketInfo, clickOnVoteCard, toggleVo
               voteHidden={roomSocketInfo.isVotesHidden}
             >
               <span>
-                {
-                  roomSocketInfo.isVotesHidden
-                    ? user.hasVoted ? <Checkmark color={"black"} /> : <Loader />
-                    : user.vote
-                }
+                { user.hasVoted ? <Checkmark color={"black"} /> : <Loader /> }
               </span>
             </UserCard>
-          ))
+          )) : "sexo"
         }
       </div>
 
