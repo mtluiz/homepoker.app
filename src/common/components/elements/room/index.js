@@ -4,6 +4,8 @@ import useSelectedStore from '../../../store/selected';
 import copyToClipboard from '../../../../utils/copyToClipboard';
 import UserCard from '../../ui/UserCard';
 import VoteCards from './VoteCards';
+import Loader from '../../ui/Loader';
+import Checkmark from '../../ui/Checkmark';
 
 export default function Room({ roomId, roomSocketInfo, clickOnVoteCard, toggleVoteShow, resetRoom }) {
 
@@ -15,9 +17,7 @@ export default function Room({ roomId, roomSocketInfo, clickOnVoteCard, toggleVo
 
   return (
     <div className="">
-
       <header className='flex justify-center'>
-
         <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center absolute top-8 left-8" onClick={selectDefault}>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-bar-left" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5zM10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5z" />
@@ -32,9 +32,7 @@ export default function Room({ roomId, roomSocketInfo, clickOnVoteCard, toggleVo
             <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
           </svg>
         </button>
-
       </header>
-
       <div className='actions flex justify-center my-8 w-full gap-12'>
         <button className='text-1xl text-white border-solid shadow-xl bg-blue-600 hover:bg-blue-500 transition-all py-2 px-4 rounded inline-flex items-center' onClick={toggleVoteShow}>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-eye mr-2" viewBox="0 0 16 16">
@@ -43,7 +41,6 @@ export default function Room({ roomId, roomSocketInfo, clickOnVoteCard, toggleVo
           </svg>
           Mostrar Votos
         </button>
-
         <button className='text-1xl text-white border-solid shadow-xl bg-blue-600 hover:bg-blue-500 transition-all py-2 px-4 rounded inline-flex items-center' onClick={resetRoom}>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-counterclockwise mr-2" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z" />
@@ -53,17 +50,22 @@ export default function Room({ roomId, roomSocketInfo, clickOnVoteCard, toggleVo
         </button>
       </div>
 
-      <div className="users h-[260px]">
+      <div className="users h-[280px] gap-2">
         {
           roomSocketInfo.users.map(user => (
-            <UserCard key={user.id} name={user.name}>
-              <h1>
+            <UserCard
+              key={user.id}
+              name={user.name}
+              voted={user.hasVoted}
+              voteHidden={roomSocketInfo.isVotesHidden}
+            >
+              <span>
                 {
                   roomSocketInfo.isVotesHidden
-                    ? user.hasVoted ? "Ja Votou!" : "Votando..."
+                    ? user.hasVoted ? <Checkmark color={"black"} /> : <Loader />
                     : user.vote
                 }
-              </h1>
+              </span>
             </UserCard>
           ))
         }
