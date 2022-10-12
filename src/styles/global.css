@@ -11,7 +11,6 @@
 }
 
 .card{
-  background: red;
   width: 85px;
   min-width: 85px;
   height: 120px;
@@ -23,6 +22,7 @@
   font-weight: bolder;
   background: linear-gradient(0deg,#0031FFbb, #55b1f2cc );
   box-shadow: 0 4px 3px #333;
+  position: relative;
 }
 
 .user-card{
@@ -36,6 +36,13 @@
 .user-card__name{
   position: absolute;
   bottom: 10px;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-weight: 500;
+  text-align: center;
+  width:78px;
 }
 
 .codefield input{
@@ -65,6 +72,53 @@
   justify-content: center;
 }
 
-.selected-vote-card{
-  
+.user-card-voted{
+  background: linear-gradient(-45deg, #ffffff, #06FF00);
+	background-size: 400% 400%;
+	animation: gradient 2s ease infinite;
+}
+
+.card-close-button{
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  top: -4px;
+  left: -2px;
+  background: black;
+  border-radius: 50%;
+  font-size: 16px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 100px;
+}
+
+/* Spinner animation */
+
+.lds-hourglass {
+  animation: lds-hourglass 1s infinite;
+}
+
+/* Keyframes */
+
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(900deg);
+  }
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
