@@ -34,6 +34,9 @@ export default function VoteCards({ type, hasVoted, vote, clickOnCard, selected 
   const handleCardClick = (size) => (element) => {
     clickOnCard(size);
     setVoted(size);
+    document.getElementById("sound-click").load();
+    document.getElementById("sound-click").volume = 0.1;
+    document.getElementById("sound-click").play();
   }
 
   return (

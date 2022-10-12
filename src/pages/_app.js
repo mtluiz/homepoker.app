@@ -7,6 +7,10 @@ const MyApp = ({ Component, pageProps }) => (
   <>
     <Component {...pageProps} />
     <ToastContainer />
+    <aside className="sounds">
+      <audio id="sound-click" src="/sounds/card-click.ogg" preload="auto" />
+      <audio id="sound-jobdone" src="/sounds/jobs-done.ogg" preload="auto" />
+    </aside>
   </>
 )
 
