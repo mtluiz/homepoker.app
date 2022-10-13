@@ -6,6 +6,7 @@ import UserCard from '../../ui/UserCard';
 import VoteCards from './VoteCards';
 import Loader from '../../ui/Loader';
 import Checkmark from '../../ui/Checkmark';
+import VoteParser from './VoteParser';
 
 export default function Room({ roomId, roomSocketInfo, clickOnVoteCard, toggleVoteShow, resetRoom }) {
 
@@ -63,7 +64,7 @@ export default function Room({ roomId, roomSocketInfo, clickOnVoteCard, toggleVo
                 { user.hasVoted ? <Checkmark color={"black"} /> : <Loader /> }
               </span>
             </UserCard>
-          )) : "sexo"
+          )) : <VoteParser users={roomSocketInfo.users} />
         }
       </div>
 
