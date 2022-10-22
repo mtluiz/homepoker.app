@@ -18,7 +18,7 @@ export default function Error() {
         <span>Voltar</span>
       </button>
         <h1 className='text-4xl font-bold'>Já tem outra aba aberta ai, doidão.</h1>
-        <h1 className='text-4xl font-bold mb-4'>Ta achando que eu trabalho na Vercel?</h1>
+        <h1 className='text-4xl font-bold mb-4'>Ta achando que eu trabalho na Heroku?</h1>
         <img width={300} src="https://media.tenor.com/pwoJvgrZtuQAAAAd/hermes-e-renato-palha%C3%A7o-gozo.gif" alt="" />
       </div>
     </>
