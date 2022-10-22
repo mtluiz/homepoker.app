@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Image from 'next/image'
-import { getName, saveName } from '../../../../utils/username';
+import { getName, saveName } from '../../../../utils/username'
 
 export default function CreateName() {
 
@@ -17,7 +16,7 @@ export default function CreateName() {
         onKeyUp={handleNameSave} 
         onChange={handleNameSave}
         type="text" 
-        placeholder="Jeann Mallman" 
+        placeholder="Joseph Mallman" 
         defaultValue={getName() || ""}
       />
     </>
