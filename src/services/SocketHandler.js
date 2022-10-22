@@ -25,11 +25,9 @@ export default class SocketHandler {
 
   start() {
     this.io.on('connection', (socket) => {
-      console.log('connection', socket.id);
-
       socket.on('join-room', info => {
         socket.join(info.room);
-        console.log("Usuario se juntou a sala:", info);
+        console.log("logando tipo", info.type);
 
         if (!this.ROOMS.get(info.room)) {
           this.ROOMS.set(info.room, this.#generateRoomObject({
@@ -53,22 +51,17 @@ export default class SocketHandler {
         })
 
         socket.on("user-vote", data => {
-          console.log(data);
-          console.log(socket.id);
-
           const { vote } = data;
-
           currentRoom.users = currentRoom.users.map(user => {
             if (user.id === socket.id) {
               return {
                 ...user,
-                hasVoted: vote !== null,
-                vote
+                hasVoted: vote !== null && vote !== user.vote,
+                vote: vote !== user.vote? vote : null
               }
             }
             return user;
           })
-
           this.io.in(info.room).emit('sync-votes', {
             username: info.name,
             room: info.room,
@@ -78,7 +71,6 @@ export default class SocketHandler {
 
         socket.on("toggle-votes-visibility", data => {
           currentRoom.isVotesHidden = data;
-
           this.io.in(info.room).emit('sync-votes', {
             username: info.name,
             room: info.room,
@@ -93,7 +85,6 @@ export default class SocketHandler {
             hasVoted: false,
             vote: null
           }))
-
           this.io.in(info.room).emit('sync-votes', {
             username: info.name,
             room: info.room,
@@ -102,18 +93,16 @@ export default class SocketHandler {
         })
 
         socket.on('disconnect', () => {
-          console.log('User disconnected!', socket.id);
-          console.log(currentRoom.users.filter(user => socket.id !== user.id))
           currentRoom.users = currentRoom.users.filter(user => socket.id !== user.id)
-
           this.io.in(info.room).emit('user-disconnected', {
             username: info.name,
             room: info.room,
             roomData: currentRoom
           })
-
+          if(currentRoom.users.length === 0) {
+            this.ROOMS.delete(info.room)
+          }
         })
-
       })
     })
   }
