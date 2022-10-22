@@ -19,7 +19,7 @@
   justify-content: center;
   align-items: center;
   font-size: 50px;
-  font-weight: bolder;
+  font-weight: 500;
   background: linear-gradient(0deg,#0031FFbb, #55b1f2cc );
   box-shadow: 0 4px 3px #333;
   position: relative;
@@ -61,7 +61,7 @@
 }
 
 .users{
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.3);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0,0,0,0.1);
   backdrop-filter: blur(5px);
@@ -121,4 +121,9 @@
 	100% {
 		background-position: 0% 50%;
 	}
+}
+
+.card-voteparser{
+  background: white;
+  margin-right: -20px;
 }
