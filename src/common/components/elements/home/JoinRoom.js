@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useRouter } from "next/router"
 
 import { getName } from '../../../../utils/username';
 import useSelectedStore from '../../../store/selected';
@@ -6,12 +7,13 @@ import CreateName from '../name/CreateName';
 
 export default function JoinRoom() {
 
-  const [code, setCode] = useState("");
+  const navigate = useRouter()
+
+  const code = [];
 
   useEffect(() => {
     console.log(code);
   }, [code])
-  
 
   const fields = useRef(null);
   const selectDefault = useSelectedStore((state) => state.selectDefault);
@@ -21,20 +23,28 @@ export default function JoinRoom() {
     const values = [];
     Array.from(inputs).forEach((input) => {
       input.addEventListener('keydown', (el) => {
+        if ((el.key == "Backspace" || el.key == "Delete")) {
+          if (el.target.value.length === 1) {
+            el.target.value = ""
+          } else {
+            el.target.previousElementSibling && el.target.previousElementSibling.focus()
+          }
+        }
         if (el.target.value.length === 1 && el.target.nextElementSibling) {
           el.target.nextElementSibling.focus();
         }
-        if ((el.key == "Backspace" || el.key == "Delete") && el.target.previousElementSibling) {
-          el.target.value = ""
-          el.target.previousElementSibling.focus()
-        }
       }, { passive: true })
+      input.addEventListener('keyup', (el) => {
+        if (el.key == "Backspace" || el.key == "Delete") {
+          code.pop()
+          return
+        }
+        code.push(el.key)
+        if (code.length === 5) {
+          navigate.push("/sala/" + code.join(""))
+        }
 
-      input.addEventListener('change', (el) => {
-        values.push(el.target.value)
-        setCode(values.join(""))
-        console.log(values);
-      })
+      }, { passive: true })
     })
   }, [])
 
@@ -53,7 +63,6 @@ export default function JoinRoom() {
       <div>
         <form>
           <fieldset ref={fields} className='codefield'>
-            <input autoComplete="off" type="text" inputMode="numeric" pattern="\d*" maxLength="1" defaultValue="" />
             <input autoComplete="off" type="text" inputMode="numeric" pattern="\d*" maxLength="1" defaultValue="" />
             <input autoComplete="off" type="text" inputMode="numeric" pattern="\d*" maxLength="1" defaultValue="" />
             <input autoComplete="off" type="text" inputMode="numeric" pattern="\d*" maxLength="1" defaultValue="" />
