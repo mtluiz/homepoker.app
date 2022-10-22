@@ -10,12 +10,14 @@ export default function Name() {
 
   return (
     <div className='w-full h-[100vh] flex items-center justify-center'>
-      <div>
+      {router.isReady && (
+        <div>
         <CreateName />
         <a href={`/sala/${router.query.sala}`} className="block mt-4 w-full px-12 py-3 text-lg font-medium text-blue-600 rounded shadow sm:w-auto hover:text-blue-400 transition-all active:text-blue-500 focus:outline-none focus:ring cursor-pointer">
           Juntar-me a sala {router.query.sala}
         </a>
       </div>
+      )}
     </div>
   )
 }

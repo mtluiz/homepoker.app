@@ -1,5 +1,5 @@
 const copyToClipboard = (text) => {
-  return navigator.clipboard.writeText("localhost:3000/sala/" + text)
+  return navigator.clipboard.writeText("https://homepokerapp.herokuapp.com/sala/" + text)
 }
 
 export default copyToClipboard;
